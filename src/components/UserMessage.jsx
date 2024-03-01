@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import ava from '../assets/img/ava.png';
 
 const UserMessage = ({ message, userId, admin, prev, update }) => {
 	const messageClass =

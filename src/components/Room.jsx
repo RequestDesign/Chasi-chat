@@ -27,22 +27,13 @@ const Room = ({
 	const [user, setUser] = useState({});
 	const [messages, setMessages] = useState([]);
 	const [roomIsLoading, setRoomIsLoading] = useState(true);
+	const [fileList, setFileList] = useState([]);
 
 	const params = useParams();
 
 	useEffect(() => {
 		setDialogId(modalId || params.id);
 	}, [params.id, modalId]);
-
-	// useEffect(() => {
-	// 	if (dId && rooms.length) {
-
-	// 	}
-	// }, [dId, newMess]);
-
-	// useEffect(() => {
-	// 	createRoom(82862)
-	// },[])
 
 	const MOCK_DATA = {
 		'@': ['user1', 'user2', 'user3'],
@@ -68,47 +59,40 @@ const Room = ({
 		}
 	};
 
+	const removeImageHandler = (imageFile) => {
+		const updatedList = fileList.filter((item) => item.uid !== imageFile.uid);
+		setFileList(updatedList);
+	};
+
 	const propsUpl = {
 		name: 'files',
 		action: chatHostName + '/api/files',
 		headers: {
 			Authorization: 'Bearer ' + localStorage.getItem('jwtToken'),
 		},
+		accept: 'image/*',
+		multiple: true,
+
 		onChange(info) {
-			if (info.file.status !== 'uploading') {
-				console.log(info.file, info.fileList);
-			}
 			if (info.file.status === 'done') {
-				console.log(`${info.file.name} file uploaded successfully`);
-				let ft = ('' + info.file.type).split('/');
-				AddNewMessage({
-					content: '',
-					dialogId: dId,
-					uniqueCode: new Date().valueOf(),
-					files: [
-						{
-							contentType: info.file.response[0].contentType,
-							filename: info.file.response[0].filename,
-							originalName: info.file.response[0].originalName,
-						},
-					],
-				});
-			} else if (info.file.status === 'error') {
-				console.log(`${info.file.name} file upload failed.`);
+				console.log(`Files uploaded!`);
+				setFileList((prev) => [...prev, { ...info.file, loading: true }]);
 			}
 		},
 	};
 
 	const selfNewMess = (text) => {
-		AddNewMessage({
+		const obj = {
 			content: text,
 			dialogId: dId,
 			uniqueCode: new Date().valueOf(),
-		});
+			files: [],
+		};
+		AddNewMessage(obj);
 	};
 
 	const addNewMessage = () => {
-		let str = userText.trim();
+		let str = userText?.trim();
 		if (str) {
 			selfNewMess(str);
 			setUserText(null);
@@ -117,7 +101,6 @@ const Room = ({
 
 	useEffect(() => {
 		if (newMess) {
-			console.log('newMess', newMess);
 			if (!roomIsLoading) {
 				if (parseInt(dId) === parseInt(newMess.dialogId))
 					setMessages((st) => [...st, newMess]);
@@ -125,13 +108,9 @@ const Room = ({
 				const currentRoom = rooms.filter(
 					(room) => Number(room.dialogId) === Number(dId),
 				)[0];
-				console.log('currentRoom', currentRoom);
 
 				const updatedRoom = setMessagesRead(rooms, currentRoom);
-				console.log(updatedRoom);
-				console.log('before rooms', rooms);
 				setRooms(updatedRoom);
-				console.log('after rooms', rooms);
 			}
 		}
 	}, [newMess]);
@@ -140,11 +119,8 @@ const Room = ({
 		if (dId) {
 			getRoom(dId)
 				.then((roomData) => {
-					console.log('MESSAGES');
-					console.log(roomData);
 					setRoomName(roomData.name);
 					setMessages(roomData.messages);
-					console.log(roomData);
 					setUser(roomData.users.filter((el) => el.userId !== userChatId)[0]);
 				})
 				.then(() => {
@@ -155,11 +131,7 @@ const Room = ({
 
 	useEffect(() => {
 		chatScrollUpdate();
-		console.log('ROOM UPDATE');
-		console.log(messages);
 	}, [messages]);
-
-	console.log('dId', dId);
 
 	return (
 		<div className="chat-room">
@@ -266,6 +238,7 @@ const Room = ({
 													update={() => chatScrollUpdate()}
 													prev={getPrev(index)}
 													userId={userChatId}
+													fileList={fileList}
 												/>
 											</CSSTransition>
 										))}
@@ -283,6 +256,70 @@ const Room = ({
 					</Scrollbars>
 				</div>
 				<div className="chat__dialog__footer">
+					{fileList.length > 0 && (
+						<div className="chat__dialog__footer__row chat__img-preview-box">
+							<ul className="chat__img-preview-list">
+								{fileList.map((image, i) => (
+									<li
+										key={i}
+										className="chat__img-preview-item">
+										<button
+											className="chat__img-preview-item-btn"
+											onClick={() => {
+												removeImageHandler(image);
+											}}>
+											<svg
+												width="28"
+												height="28"
+												viewBox="0 0 28 28"
+												fill="none"
+												xmlns="http://www.w3.org/2000/svg">
+												<rect
+													x="1"
+													y="1"
+													width="26"
+													height="26"
+													rx="13"
+													fill="#1D7D4D"
+												/>
+												<rect
+													x="1"
+													y="1"
+													width="26"
+													height="26"
+													rx="13"
+													stroke="white"
+													stroke-width="2"
+												/>
+												<path
+													d="M10 10L18 18"
+													stroke="white"
+													stroke-width="1.5"
+													stroke-linecap="round"
+													stroke-linejoin="round"
+												/>
+												<path
+													d="M18 10L10 18"
+													stroke="white"
+													stroke-width="1.5"
+													stroke-linecap="round"
+													stroke-linejoin="round"
+												/>
+											</svg>
+										</button>
+										<div className="chat__img-preview-item-img">
+											{image.originFileObj && (
+												<img
+													src={URL.createObjectURL(image.originFileObj)}
+													alt={image.name}
+												/>
+											)}
+										</div>
+									</li>
+								))}
+							</ul>
+						</div>
+					)}
 					<div className="chat__dialog__footer__row">
 						<Mentions
 							autoSize
@@ -329,7 +366,6 @@ const Room = ({
 										/>
 									</svg>
 								</Upload>
-								{/* <input className="input--add-photo" type="file"  multiple /> */}
 							</div>
 							<div
 								className="btn--send"

@@ -10,12 +10,10 @@ const RoomList = ({ rooms, setRooms }) => {
 	const dId = params.id;
 
 	useEffect(() => {
-		console.log('---ROOMS---');
-		console.log(rooms);
-		console.log('-----------');
+		// console.log('---ROOMS---');
+		// console.log(rooms);
+		// console.log('-----------');
 	}, []);
-
-	console.log('rooms отрисовка списка Roomlist', rooms);
 
 	return (
 		<>
