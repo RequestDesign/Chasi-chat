@@ -1,16 +1,18 @@
-import {chatHostName} from "./HostNames";
+import { chatHostName } from './HostNames';
 
 export const getRoom = async (dId) => {
 	let resp = '';
+
 	try {
 		const response = await fetch(chatHostName + '/api/dialog/' + dId, {
 			crossDomain: true,
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json',
-				"Authorization": "Bearer " + localStorage.getItem('jwtToken')
-			}
+				Authorization: 'Bearer ' + localStorage.getItem('jwtToken'),
+			},
 		});
+
 		resp = response.json();
 		if (!response.ok) {
 			throw new Error(response.statusText);
@@ -19,4 +21,4 @@ export const getRoom = async (dId) => {
 		console.log(e);
 	}
 	return resp;
-}
+};

@@ -1695,16 +1695,9 @@
         }
     }
 }
-// body {
-//     min-height: 100vh;
-//     display: flex;
-//     flex-direction: column;
-
-//     &.lock {
-//         overflow: hidden;
-//         touch-action: none;
-//     }
-// }
+body {
+    font-family: 'Montserrat'
+}
 
 .btn {
     padding: 1.7rem 4rem;
