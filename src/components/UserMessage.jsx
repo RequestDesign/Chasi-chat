@@ -6,10 +6,24 @@ const UserMessage = ({ message, userId, admin, prev, update }) => {
 			? 'chat__dialog__message message--outgoing  message--only-img'
 			: 'chat__dialog__message message--outgoing';
 
+	const isSameDay =
+		new Date(prev.date).getDay() === new Date(message.timestamp).getDay();
+
 	return (
 		<>
 			{userId > 0 && message.sender.userId === userId ? (
 				<>
+					{!isSameDay && (
+						<div className="chat__date">
+							{new Intl.DateTimeFormat('ru-RU', {
+								day: 'numeric',
+								month: 'long',
+								year: 'numeric',
+							})
+								.format(new Date(message.timestamp))
+								.replace(' г.', '')}
+						</div>
+					)}
 					<div className={admin ? messageClass : messageClass}>
 						{message.content !== '' && (
 							<div className="message-text">{message.content}</div>
@@ -44,8 +58,9 @@ const UserMessage = ({ message, userId, admin, prev, update }) => {
 									</div>
 								),
 							)}
-						{(prev.time !== new Date(message.timestamp).getMinutes() ||
-							prev.id !== message.sender.userId) && (
+						{
+							//(prev.time !== new Date(message.timestamp).getMinutes() ||
+							//prev.id !== message.sender.userId) && (
 							<div className="message-time">
 								{new Date(message.timestamp)
 									.getHours()
@@ -57,7 +72,8 @@ const UserMessage = ({ message, userId, admin, prev, update }) => {
 									.toString()
 									.padStart(2, '0')}
 							</div>
-						)}
+							//)
+						}
 					</div>
 				</>
 			) : (

@@ -52,10 +52,11 @@ const Room = ({
 		if (index) {
 			return {
 				time: new Date(messages[index - 1].timestamp).getMinutes(),
+				date: messages[index - 1].timestamp,
 				id: messages[index - 1].sender.userId,
 			};
 		} else {
-			return { id: 0, time: 0 };
+			return { id: 0, time: 0, date: 0 };
 		}
 	};
 

@@ -36,8 +36,6 @@ function App() {
 				setRooms(chatRooms);
 				setRoomsLoading(false);
 			});
-
-		
 		}
 		if (!userID) {
 			getUserData().then((resp) => localStorage.setItem('userID', resp.userId));
@@ -47,6 +45,10 @@ function App() {
 	return (
 		<BrowserRouter>
 			<Routes>
+				<Route
+					path={'/test'}
+					element={<p>test</p>}
+				/>
 				<Route
 					path={routeNames.chat}
 					element={
