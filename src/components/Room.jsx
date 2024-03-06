@@ -76,7 +76,6 @@ const Room = ({
 
 		onChange(info) {
 			if (info.file.status === 'done') {
-				console.log(`Files uploaded!`);
 				setFileList((prev) => [...prev, { ...info.file, loading: true }]);
 			}
 		},
@@ -87,7 +86,6 @@ const Room = ({
 			content: text,
 			dialogId: dId,
 			uniqueCode: new Date().valueOf(),
-			files: [],
 		};
 		AddNewMessage(obj);
 	};
