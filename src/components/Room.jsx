@@ -91,10 +91,27 @@ const Room = ({
 	};
 
 	const addNewMessage = () => {
+		console.log(userText);
 		let str = userText?.trim();
 		if (str) {
 			selfNewMess(str);
 			setUserText(null);
+		}
+		if(fileList.length) {
+			AddNewMessage({
+				content: '',
+				dialogId: dId,
+				uniqueCode: new Date().valueOf(),
+				files: fileList.map((item)=>(
+					{
+						contentType: item.response[0].contentType,
+						filename: item.response[0].filename,
+						originalName: item.response[0].originalName
+					}
+				))
+			});
+			const updatedList = '';
+			setFileList(updatedList);
 		}
 	};
 
@@ -150,9 +167,9 @@ const Room = ({
 									<path
 										d="M15 18L9 12L15 6"
 										stroke="#031E16"
-										stroke-width="1.5"
-										stroke-linecap="round"
-										stroke-linejoin="round"
+										strokeWidth="1.5"
+										strokeLinecap="round"
+										strokeLinejoin="round"
 									/>
 								</svg>
 							</div>
@@ -178,13 +195,13 @@ const Room = ({
 										viewBox="0 0 24 24"
 										fill="none">
 										<path
-											fill-rule="evenodd"
-											clip-rule="evenodd"
+											fillRule="evenodd"
+											clipRule="evenodd"
 											d="M10.8581 13.1463C9.6881 11.9763 8.8061 10.6663 8.2201 9.33731C8.0961 9.05631 8.1691 8.72731 8.3861 8.51031L9.2051 7.69231C9.8761 7.02131 9.8761 6.07231 9.2901 5.48631L8.1161 4.31231C7.3351 3.53131 6.0691 3.53131 5.2881 4.31231L4.6361 4.96431C3.8951 5.70531 3.5861 6.77431 3.7861 7.83431C4.2801 10.4473 5.7981 13.3083 8.2471 15.7573C10.6961 18.2063 13.5571 19.7243 16.1701 20.2183C17.2301 20.4183 18.2991 20.1093 19.0401 19.3683L19.6911 18.7173C20.4721 17.9363 20.4721 16.6703 19.6911 15.8893L18.5181 14.7163C17.9321 14.1303 16.9821 14.1303 16.3971 14.7163L15.4941 15.6203C15.2771 15.8373 14.9481 15.9103 14.6671 15.7863C13.3381 15.1993 12.0281 14.3163 10.8581 13.1463Z"
 											stroke="white"
-											stroke-width="1.5"
-											stroke-linecap="round"
-											stroke-linejoin="round"
+											strokeWidth="1.5"
+											strokeLinecap="round"
+											strokeLinejoin="round"
 										/>
 									</svg>
 								</button>
@@ -202,7 +219,7 @@ const Room = ({
 							</div>
 						) : (
 							<>
-								<div className="chat__dialog__date">Date</div>
+								{/* <div className="chat__dialog__date">Date</div>
 								<div className="chat__dialog__message message--outgoing">
 									<div className="message-text">Привет!</div>
 									<div className="message-time">23:47</div>
@@ -223,7 +240,7 @@ const Room = ({
 								<div className="chat__dialog__message message--incoming">
 									<div className="message-text">Супер!</div>
 									<div className="message-time">23:47</div>
-								</div>
+								</div> */}
 
 								{messages && messages.length > 0 ? (
 									<TransitionGroup className="messages-date-wrapper">
@@ -288,21 +305,21 @@ const Room = ({
 													height="26"
 													rx="13"
 													stroke="white"
-													stroke-width="2"
+													strokeWidth="2"
 												/>
 												<path
 													d="M10 10L18 18"
 													stroke="white"
-													stroke-width="1.5"
-													stroke-linecap="round"
-													stroke-linejoin="round"
+													strokeWidth="1.5"
+													strokeLinecap="round"
+													strokeLinejoin="round"
 												/>
 												<path
 													d="M18 10L10 18"
 													stroke="white"
-													stroke-width="1.5"
-													stroke-linecap="round"
-													stroke-linejoin="round"
+													strokeWidth="1.5"
+													strokeLinecap="round"
+													strokeLinejoin="round"
 												/>
 											</svg>
 										</button>
@@ -350,18 +367,18 @@ const Room = ({
 										<path
 											d="M19.3187 10.2521C21.6543 12.5877 21.6543 16.3743 19.3187 18.7098C16.9832 21.0454 13.1966 21.0454 10.861 18.7098C8.52549 16.3743 8.52549 12.5877 10.861 10.2521C13.1966 7.91661 16.9832 7.91661 19.3187 10.2521"
 											stroke="#031E16"
-											stroke-width="1.5"
-											stroke-linecap="round"
-											stroke-linejoin="round"
+											strokeWidth="1.5"
+											strokeLinecap="round"
+											strokeLinejoin="round"
 										/>
 										<path
-											fill-rule="evenodd"
-											clip-rule="evenodd"
+											fillRule="evenodd"
+											clipRule="evenodd"
 											d="M28.5 8.5V22C28.5 23.6575 27.1575 25 25.5 25H4.5C2.8425 25 1.5 23.6575 1.5 22V8.5C1.5 6.8425 2.8425 5.5 4.5 5.5H7.5L9.693 1.744C9.9615 1.2835 10.455 1 10.989 1H18.945C19.4715 1 19.959 1.276 20.2305 1.726L22.5 5.5H25.5C27.1575 5.5 28.5 6.8425 28.5 8.5Z"
 											stroke="#031E16"
-											stroke-width="1.5"
-											stroke-linecap="round"
-											stroke-linejoin="round"
+											strokeWidth="1.5"
+											strokeLinecap="round"
+											strokeLinejoin="round"
 										/>
 									</svg>
 								</Upload>
@@ -374,20 +391,20 @@ const Room = ({
 									viewBox="0 0 32 32"
 									fill="none">
 									<path
-										fill-rule="evenodd"
-										clip-rule="evenodd"
+										fillRule="evenodd"
+										clipRule="evenodd"
 										d="M19.5238 26.5432L26.7984 6.91654C27.1944 5.84721 26.1531 4.80721 25.0851 5.20321L5.45176 12.4832C4.22376 12.9392 4.31976 14.7072 5.59043 15.0259L14.7024 17.3152L16.9784 26.4032C17.2984 27.6752 19.0678 27.7725 19.5238 26.5432V26.5432Z"
 										stroke="#031E16"
-										stroke-width="1.5"
-										stroke-linecap="round"
-										stroke-linejoin="round"
+										strokeWidth="1.5"
+										strokeLinecap="round"
+										strokeLinejoin="round"
 									/>
 									<path
 										d="M26.4937 5.50781L14.707 17.3211"
 										stroke="#031E16"
-										stroke-width="1.5"
-										stroke-linecap="round"
-										stroke-linejoin="round"
+										strokeWidth="1.5"
+										strokeLinecap="round"
+										strokeLinejoin="round"
 									/>
 								</svg>
 							</div>

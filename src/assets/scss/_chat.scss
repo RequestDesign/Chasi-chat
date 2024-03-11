@@ -708,6 +708,138 @@
 					max-width: 60rem;
 					max-height: 64rem;
 				}
+				.message-time {
+					display: none;
+				}
+				&[data-files="2"] {
+					grid-template-columns: repeat(2, 1fr);
+				}
+				&[data-files="3"] {
+					grid-template-columns: repeat(2, 1fr);
+  					grid-template-rows: repeat(2, 1fr);
+
+					.chat__dialog__message__image-wrapper:nth-child(1) {
+						grid-row: auto / span 2;
+					}
+				}
+				&[data-files="4"] {
+					grid-template-columns: repeat(2, 1fr);
+  					grid-template-rows: repeat(2, 1fr);
+				}
+				&[data-files="5"] {
+					grid-template-columns: repeat(6, 1fr);
+  					grid-template-rows: repeat(2, 1fr);
+					.chat__dialog__message__image-wrapper:nth-child(1) {
+						grid-column: auto / span 3;
+					}
+					.chat__dialog__message__image-wrapper:nth-child(2) {
+						grid-column: auto / span 3;
+					}
+					.chat__dialog__message__image-wrapper:nth-child(3) {
+						grid-column: auto / span 2;
+					}
+					.chat__dialog__message__image-wrapper:nth-child(4) {
+						grid-column: auto / span 2;
+					}
+					.chat__dialog__message__image-wrapper:nth-child(5) {
+						grid-column: auto / span 2;
+					}
+				}
+				&[data-files="6"] {
+					grid-template-columns: repeat(2, 1fr);
+  					grid-template-rows: repeat(3, 1fr);
+				}
+				&[data-files="7"] {
+					grid-template-columns: repeat(6, 1fr);
+  					grid-template-rows: repeat(3, 1fr);
+					.chat__dialog__message__image-wrapper:nth-child(1) {
+						grid-column: auto / span 3;
+					}
+					.chat__dialog__message__image-wrapper:nth-child(2) {
+						grid-column: auto / span 3;
+					}
+					.chat__dialog__message__image-wrapper:nth-child(3) {
+						grid-column: auto / span 3;
+					}
+					.chat__dialog__message__image-wrapper:nth-child(4) {
+						grid-column: auto / span 3;
+					}
+					.chat__dialog__message__image-wrapper:nth-child(5) {
+						grid-column: auto / span 2;
+					}
+					.chat__dialog__message__image-wrapper:nth-child(6) {
+						grid-column: auto / span 2;
+					}
+					.chat__dialog__message__image-wrapper:nth-child(7) {
+						grid-column: auto / span 2;
+					}
+				}
+				&[data-files="8"] {
+					grid-template-columns: repeat(6, 1fr);
+  					grid-template-rows: repeat(3, 1fr);
+					.chat__dialog__message__image-wrapper:nth-child(1) {
+						grid-column: auto / span 3;
+					}
+					.chat__dialog__message__image-wrapper:nth-child(2) {
+						grid-column: auto / span 3;
+					}
+					.chat__dialog__message__image-wrapper:nth-child(3) {
+						grid-column: auto / span 2;
+					}
+					.chat__dialog__message__image-wrapper:nth-child(4) {
+						grid-column: auto / span 2;
+					}
+					.chat__dialog__message__image-wrapper:nth-child(5) {
+						grid-column: auto / span 2;
+					}
+					.chat__dialog__message__image-wrapper:nth-child(6) {
+						grid-column: auto / span 2;
+					}
+					.chat__dialog__message__image-wrapper:nth-child(7) {
+						grid-column: auto / span 2;
+					}
+					.chat__dialog__message__image-wrapper:nth-child(8) {
+						grid-column: auto / span 2;
+					}
+				}
+				&[data-files="9"] {
+					grid-template-columns: repeat(3, 1fr);
+  					grid-template-rows: repeat(3, 1fr);
+				}
+				&[data-files="8"] {
+					grid-template-columns: repeat(12, 1fr);
+  					grid-template-rows: repeat(3, 1fr);
+					.chat__dialog__message__image-wrapper:nth-child(1) {
+						grid-column: auto / span 4;
+					}
+					.chat__dialog__message__image-wrapper:nth-child(2) {
+						grid-column: auto / span 4;
+					}
+					.chat__dialog__message__image-wrapper:nth-child(3) {
+						grid-column: auto / span 4;
+					}
+					.chat__dialog__message__image-wrapper:nth-child(4) {
+						grid-column: auto / span 4;
+					}
+					.chat__dialog__message__image-wrapper:nth-child(5) {
+						grid-column: auto / span 4;
+					}
+					.chat__dialog__message__image-wrapper:nth-child(6) {
+						grid-column: auto / span 4;
+					}
+					.chat__dialog__message__image-wrapper:nth-child(7) {
+						grid-column: auto / span 3;
+					}
+					.chat__dialog__message__image-wrapper:nth-child(8) {
+						grid-column: auto / span 3;
+					}
+					.chat__dialog__message__image-wrapper:nth-child(9) {
+						grid-column: auto / span 3;
+					}
+					.chat__dialog__message__image-wrapper:nth-child(10) {
+						grid-column: auto / span 3;
+					}
+				}
 
 				.chat__dialog__message__image-wrapper {
 					width: 100%;
