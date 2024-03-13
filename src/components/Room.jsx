@@ -9,6 +9,7 @@ import { chatHostName } from '../API/HostNames';
 import { getRoom } from '../API/getRoom';
 import setMessagesRead from '../utils/setMessageRead';
 import UserMessage from './UserMessage';
+import {createRoom} from "../API/createRoom";
 
 const Room = ({
 	userChatId,
@@ -34,6 +35,14 @@ const Room = ({
 	useEffect(() => {
 		setDialogId(modalId || params.id);
 	}, [params.id, modalId]);
+
+	// useEffect(() => {
+	// 	console.log(user);
+	// 	createRoom(82862)
+	// 	.then((e) => {
+	// 		console.log(e.dialogId);
+	// 	});
+	// },[])
 
 	const MOCK_DATA = {
 		'@': ['user1', 'user2', 'user3'],
@@ -91,7 +100,6 @@ const Room = ({
 	};
 
 	const addNewMessage = () => {
-		console.log(userText);
 		let str = userText?.trim();
 		if (str) {
 			selfNewMess(str);
@@ -188,7 +196,7 @@ const Room = ({
 							<a
 								href="#"
 								className="chat__dialog__phone">
-								<span>+7 (000) 123-45-67</span>
+								<span>{user.email}</span>
 								<button className="btn btn__green">
 									<svg
 										xmlns="http://www.w3.org/2000/svg"

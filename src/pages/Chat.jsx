@@ -38,7 +38,15 @@ const Chat = ({ rooms, setRooms, roomsIsLoading, setRoomsIsLoading }) => {
 	return (
 		<div className="chat__content">
 			<div className="chat__dialogs">
-				<p className="chat__dialogs-title">Сообщения</p>
+				<p className="chat__dialogs-title desktop">Сообщения</p>
+				<div className="chat__dialogs__header mobile">
+					<div className="btn--go-back">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+							<path d="M15 18L9 12L15 6" stroke="#031E16" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+						</svg>
+					</div>
+                    <span className="title">Сообщения</span>
+                </div>
 				<Support />
 				{rooms.length > 0 ? (
 					<div className="chat__dialogs__list">

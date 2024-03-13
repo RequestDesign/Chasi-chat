@@ -11,6 +11,7 @@ import { getUserData } from './API/getUserData';
 import ModalRoom from './components/ModalRoom';
 import { Divider } from 'antd';
 import setMessagesRead from './utils/setMessageRead';
+import {createRoom} from "./API/createRoom";
 
 function App() {
 	const [connectWS, isConnected, sendNewMessage, newMessage] = useStomp();
@@ -41,6 +42,22 @@ function App() {
 			getUserData().then((resp) => localStorage.setItem('userID', resp.userId));
 		}
 	}, [newMessage]);
+
+	useEffect(() => {
+		const button = document.querySelector(".creating-room");
+
+		if(button) {
+			button.addEventListener("click", (event) => {
+				if(button.getAttribute('data-userId')) {
+					createRoom(Number(button.getAttribute('data-userId')))
+					.then((e) => {
+						console.log(e.dialogId);
+					});
+				}
+			});
+		}
+
+	}, []);
 
 	return (
 		<BrowserRouter>

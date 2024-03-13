@@ -9,12 +9,6 @@ const RoomList = ({ rooms, setRooms }) => {
 	const params = useParams();
 	const dId = params.id;
 
-	useEffect(() => {
-		// console.log('---ROOMS---');
-		// console.log(rooms);
-		// console.log('-----------');
-	}, []);
-
 	return (
 		<>
 			{rooms.length &&
@@ -57,7 +51,7 @@ const RoomList = ({ rooms, setRooms }) => {
 					</NavLink>
 				))}
 
-			{Array.from({ length: 10 }, (_, index) => index + 1).map((_, index) => {
+			{/* {Array.from({ length: 10 }, (_, index) => index + 1).map((_, index) => {
 				return (
 					<NavLink
 						key={index}
@@ -81,7 +75,7 @@ const RoomList = ({ rooms, setRooms }) => {
 						</div>
 					</NavLink>
 				);
-			})}
+			})} */}
 		</>
 	);
 };
