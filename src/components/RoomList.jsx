@@ -9,10 +9,24 @@ const RoomList = ({ rooms, setRooms }) => {
 	const params = useParams();
 	const dId = params.id;
 
+	const checkRooms = (room) => {
+		const admin = Number(localStorage.getItem('userID'))
+		if (admin !== 82830) {
+			let check = room.users.filter((user) => user.userId !== 82830)
+			return check.length === 2 ? false : true
+		}
+		else {
+			return false
+		}
+	};
+
 	return (
 		<>
 			{rooms.length &&
 				rooms.map((room, index) => (
+					<>
+					{checkRooms(room) ? false :  
+						
 					<NavLink
 						to={routeNames.chat + '/' + room.dialogId}
 						className={`chat__dialogs__item chat__box-item ${
@@ -49,7 +63,10 @@ const RoomList = ({ rooms, setRooms }) => {
 							)}
 						</div>
 					</NavLink>
-				))}
+					}
+					</>
+				)
+			)}
 
 			{/* {Array.from({ length: 10 }, (_, index) => index + 1).map((_, index) => {
 				return (

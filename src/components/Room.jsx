@@ -36,13 +36,12 @@ const Room = ({
 		setDialogId(modalId || params.id);
 	}, [params.id, modalId]);
 
-	// useEffect(() => {
-	// 	console.log(user);
-	// 	createRoom(82862)
-	// 	.then((e) => {
-	// 		console.log(e.dialogId);
-	// 	});
-	// },[])
+	useEffect(() => {
+		createRoom(82830)
+		// .then((e) => {
+		// 	console.log(e.dialogId);
+		// });
+	},[])
 
 	const MOCK_DATA = {
 		'@': ['user1', 'user2', 'user3'],

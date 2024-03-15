@@ -47,7 +47,7 @@ const Chat = ({ rooms, setRooms, roomsIsLoading, setRoomsIsLoading }) => {
 					</div>
                     <span className="title">Сообщения</span>
                 </div>
-				<Support />
+				<Support rooms={rooms} />
 				{rooms.length > 0 ? (
 					<div className="chat__dialogs__list">
 						<RoomList

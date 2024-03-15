@@ -17,3 +17,8 @@ userID 82862
 localStorage.setItem('exchangeName', 'f80bc3d83a2283d158d8b5f68c3747d045e9c1f1756fcbba400be2e3ecc84b0a')
 localStorage.setItem('jwtToken', 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4Mjg2MiIsImlhdCI6MTcwODQzMDE0NiwiYXV0aG9yaXRpZXMiOiJST0xFX1VTRVIifQ.GnjTWFEVff1aB0jnL7H9ViONE4HD60LpyjKBpyPzwOM')
 localStorage.setItem('userID', '82862')
+
+
+exchangeName fb303cf45762c6158fa2da83ef9a8566b3a921e032d757d501c209412b7b69d9
+jwtToken eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4MjgzMCIsImlhdCI6MTcxMDUwMTA5MiwiYXV0aG9yaXRpZXMiOiJST0xFX1VTRVIifQ.TK5KvwykDj-UC98Cgn9M3ke0Fs14A1htVN19UGP5CoM
+userID 82830

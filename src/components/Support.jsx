@@ -1,15 +1,25 @@
 import React, { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
-export const Support = () => {
+export const Support = ({ rooms }) => {
+	const sup = 82830;
 	const params = useParams();
 	const dId = params.id === 'support';
+
+	console.log(params);
+
+	const checkRooms = () => {
+		const room = rooms.filter((x) => x.users.filter((e)=> e === sup) )
+		const id = room.length ? room[0].dialogId : 0
+		return id === Number(params.id) ? true : false
+	};
+
 	return (
 		<Link
 			to="/profile/chat/82863"
-			className={`chat__dialogs__support${dId ? 'active' : ''}`}>
+			className={`chat__dialogs__support${checkRooms() ? 'active' : ''}`}>
 
-			<div className="chat__dialogs__item">
+			<div className={`chat__dialogs__item ${checkRooms() ? 'active' : ''}`}>
 				<div className="chat__dialogs__photo">
 					<svg className="support-ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" fill="none">
 						<path
