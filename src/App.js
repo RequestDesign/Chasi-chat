@@ -43,21 +43,21 @@ function App() {
 		}
 	}, [newMessage]);
 
-	useEffect(() => {
-		const button = document.querySelector(".creating-room");
+	// useEffect(() => {
+	// 	const button = document.querySelector(".creating-room");
 
-		if(button) {
-			button.addEventListener("click", (event) => {
-				if(button.getAttribute('data-userId')) {
-					createRoom(Number(button.getAttribute('data-userId')))
-					.then((e) => {
-						console.log(e.dialogId);
-					});
-				}
-			});
-		}
+	// 	if(button) {
+	// 		button.addEventListener("click", (event) => {
+	// 			if(button.getAttribute('data-userId')) {
+	// 				createRoom(Number(button.getAttribute('data-userId')))
+	// 				.then((e) => {
+	// 					console.log(e.dialogId);
+	// 				});
+	// 			}
+	// 		});
+	// 	}
 
-	}, []);
+	// }, []);
 
 	return (
 		<BrowserRouter>
