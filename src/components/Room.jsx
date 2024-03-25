@@ -9,7 +9,6 @@ import { chatHostName } from '../API/HostNames';
 import { getRoom } from '../API/getRoom';
 import setMessagesRead from '../utils/setMessageRead';
 import UserMessage from './UserMessage';
-import {createRoom} from "../API/createRoom";
 
 const Room = ({
 	userChatId,
@@ -35,13 +34,6 @@ const Room = ({
 	useEffect(() => {
 		setDialogId(modalId || params.id);
 	}, [params.id, modalId]);
-
-	useEffect(() => {
-		createRoom(82830)
-		// .then((e) => {
-		// 	console.log(e.dialogId);
-		// });
-	},[])
 
 	const MOCK_DATA = {
 		'@': ['user1', 'user2', 'user3'],

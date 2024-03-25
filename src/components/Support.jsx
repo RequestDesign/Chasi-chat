@@ -1,22 +1,29 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import {createRoom} from "../API/createRoom";
 
 export const Support = ({ rooms }) => {
 	const sup = 82830;
 	const params = useParams();
 	const dId = params.id === 'support';
 
-	console.log(params);
-
 	const checkRooms = () => {
 		const room = rooms.filter((x) => x.users.filter((e)=> e === sup) )
 		const id = room.length ? room[0].dialogId : 0
+		console.log(room.length);
 		return id === Number(params.id) ? true : false
+	};
+	const adminRoom = () => {
+		createRoom(82830)
+		.then((e) => {
+			localStorage.setItem('idaroom', e.dialogId);
+		})
+		return localStorage.getItem('idaroom')
 	};
 
 	return (
 		<Link
-			to="/profile/chat/82863"
+			to={`/profile/chat/${adminRoom()}`}
 			className={`chat__dialogs__support${checkRooms() ? 'active' : ''}`}>
 
 			<div className={`chat__dialogs__item ${checkRooms() ? 'active' : ''}`}>
