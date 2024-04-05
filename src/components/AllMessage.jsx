@@ -10,7 +10,7 @@ const AllMessage = ({ rooms }) => {
             count += room.unreadMessages
         })
         
-        return count
+        return count ? count : ''
     };
 	return (
 		<span>
