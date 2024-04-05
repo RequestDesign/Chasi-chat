@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
+import CountMessage from './CountMessage';
 import {createRoom} from "./API/createRoom";
 
 if (document.getElementById('chat-box')) {
@@ -24,4 +25,18 @@ if (document.querySelector('[chat-id]')) {
 				})
 		});
 	}
+}
+if (document.querySelector('.header__icon-num')) {
+	
+	const root = ReactDOM.createRoot(document.querySelector('.header__icon-num'));
+	root.render(
+		<CountMessage/>
+	);
+}
+if (document.querySelector('.footer--mobile__num')) {
+	
+	const root = ReactDOM.createRoot(document.querySelector('.footer--mobile__num'));
+	root.render(
+		<CountMessage/>
+	);
 }
