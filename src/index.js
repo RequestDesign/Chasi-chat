@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import CountMessage from './CountMessage';
 import {createRoom} from "./API/createRoom";
+import { getRooms } from './API/getRooms';
 
 if (document.getElementById('chat-box')) {
 	const root = ReactDOM.createRoot(document.getElementById('chat-box'));
@@ -16,11 +17,17 @@ if (document.querySelector('[chat-id]')) {
 	const button = document.querySelector('[chat-id]');
 	if(button) {
 		button.addEventListener("click", (event) => {
+			if(document.getElementById("cardName")) {
+				let text =  document.getElementById("cardName").getElementsByClassName('title')[0].textContent
+				localStorage.setItem(`${button.getAttribute('chat-id')}cardName`, text);
+			}
 			createRoom(Number(button.getAttribute('chat-id')))
 				.then((e) => {
-					console.log(e.dialogId);
+					getRooms(0).then((chatRooms) => {
+						console.log(chatRooms);
+					});
 					if (e.dialogId) {
-						window.location.href = window.location.origin + '/profile/chat/' + e.dialogId
+						// window.location.href = window.location.origin + '/profile/chat/' + e.dialogId
 					}
 				})
 		});

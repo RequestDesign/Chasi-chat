@@ -19,7 +19,6 @@ function App() {
 	const [roomsIsLoading, setRoomsLoading] = useState(true);
 	const userID = localStorage.getItem('userID');
 	const params = useParams();
-	console.log(params);
 
 	useEffect(() => {
 		if (!isConnected) {
@@ -33,7 +32,6 @@ function App() {
 			localStorage.getItem('exchangeName')
 		) {
 			getRooms(0).then((chatRooms) => {
-				console.log('chatRooms', chatRooms);
 				setRooms(chatRooms);
 				setRoomsLoading(false);
 			});

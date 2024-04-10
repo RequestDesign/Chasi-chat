@@ -50,11 +50,13 @@ const Room = ({
 
 	const getPrev = (index) => {
 		if (index) {
-			return {
-				time: new Date(messages[index - 1].timestamp).getMinutes(),
-				date: messages[index - 1].timestamp,
-				id: messages[index - 1].sender.userId,
-			};
+			if(messages[index - 1].timestamp) {
+				return {
+					time: new Date(messages[index - 1].timestamp).getMinutes(),
+					date: messages[index - 1].timestamp,
+					id: messages[index - 1].sender.userId,
+				};
+			}
 		} else {
 			return { id: 0, time: 0, date: 0 };
 		}
@@ -119,13 +121,14 @@ const Room = ({
 			if (!roomIsLoading) {
 				if (parseInt(dId) === parseInt(newMess.dialogId))
 					setMessages((st) => [...st, newMess]);
-
-				const currentRoom = rooms.filter(
+				console.log(dId, 'id');
+				const currentRoom = rooms.find(
 					(room) => Number(room.dialogId) === Number(dId),
-				)[0];
-
-				const updatedRoom = setMessagesRead(rooms, currentRoom);
-				setRooms(updatedRoom);
+				);
+				if(currentRoom) {
+					const updatedRoom = setMessagesRead(rooms, currentRoom);
+					setRooms(updatedRoom);
+				}
 			}
 		}
 	}, [newMess]);
@@ -179,7 +182,7 @@ const Room = ({
 								/>
 							</div>
 							<div className="chat__dialog__data">
-								<div className="chat__dialog__product">{user.username}</div>
+								<div className="chat__dialog__product">{localStorage.getItem(`${user.userId}cardName`) ? localStorage.getItem(`${user.userId}cardName`) : user.username}</div>
 								<div className="chat__dialog__name">
 									{user.lastName} {user.firstName}
 								</div>

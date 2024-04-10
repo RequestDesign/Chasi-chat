@@ -8,9 +8,8 @@ export const Support = ({ rooms }) => {
 	const dId = params.id === 'support';
 
 	const checkRooms = () => {
-		const room = rooms.filter((x) => x.users.filter((e)=> e === sup) )
+		const room = rooms.filter((x) => x.users.filter((e)=> e.userId === sup).length === 1 )
 		const id = room.length ? room[0].dialogId : 0
-		console.log(room.length);
 		return id === Number(params.id) ? true : false
 	};
 	const adminRoom = () => {
