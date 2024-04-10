@@ -23,11 +23,8 @@ if (document.querySelector('[chat-id]')) {
 			}
 			createRoom(Number(button.getAttribute('chat-id')))
 				.then((e) => {
-					getRooms(0).then((chatRooms) => {
-						console.log(chatRooms);
-					});
 					if (e.dialogId) {
-						// window.location.href = window.location.origin + '/profile/chat/' + e.dialogId
+						window.location.href = window.location.origin + '/profile/chat/' + e.dialogId
 					}
 				})
 		});
