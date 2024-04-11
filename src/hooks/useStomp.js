@@ -79,7 +79,7 @@ export const useStomp = () => {
 				notificationConnect();
 			}
 		} else {
-			message.error('Нет данных для авторизации в чате')
+			// message.error('Нет данных для авторизации в чате')
 		}
 	}
 
