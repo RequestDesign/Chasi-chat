@@ -66,7 +66,18 @@ const Chat = ({ rooms, setRooms, roomsIsLoading, setRoomsIsLoading }) => {
 					</div>
 				)}
 			</div>
-			<div className="chat__dialog">
+			{params.id ? (
+				<div className="chat__dialog active" >
+					<Outlet />
+				</div>
+				) : (
+				<div className="chat__dialog" >
+					<p className="chat__dialog-salutation">
+						Выберите, кому бы вы хотели написать
+					</p>
+				</div>
+			)}
+			{/* <div className="chat__dialog" >
 				{params.id ? (
 					<Outlet />
 				) : (
@@ -74,7 +85,7 @@ const Chat = ({ rooms, setRooms, roomsIsLoading, setRoomsIsLoading }) => {
 						Выберите, кому бы вы хотели написать
 					</p>
 				)}
-			</div>
+			</div> */}
 		</div>
 	);
 };

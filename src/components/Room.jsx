@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router';
+import { NavLink } from 'react-router-dom';
 import Loading from './Loading';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { Mentions, Upload } from 'antd';
@@ -161,7 +162,7 @@ const Room = ({
 						</div>
 					) : (
 						<>
-							<div className="btn--go-back btn--close-dialog mobile">
+							<NavLink to='/profile/chat' className="btn--go-back btn--close-dialog mobile">
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
 									viewBox="0 0 24 24"
@@ -174,7 +175,21 @@ const Room = ({
 										strokeLinejoin="round"
 									/>
 								</svg>
-							</div>
+							</NavLink>
+							{/* <a href='/profile/chat' className="btn--go-back btn--close-dialog mobile">
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									viewBox="0 0 24 24"
+									fill="none">
+									<path
+										d="M15 18L9 12L15 6"
+										stroke="#031E16"
+										strokeWidth="1.5"
+										strokeLinecap="round"
+										strokeLinejoin="round"
+									/>
+								</svg>
+							</a> */}
 							<div className="chat__dialog__photo">
 								<img
 									src={user.avatar}
