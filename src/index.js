@@ -12,23 +12,37 @@ if (document.getElementById('chat-box')) {
 	);
 }
 
-if (document.querySelector('[chat-id]')) {
-	
-	const button = document.querySelector('[chat-id]');
-	if(button) {
-		button.addEventListener("click", (event) => {
+if (document.querySelectorAll('[chat-id]')) {
+	const button = document.querySelectorAll('[chat-id]');
+	button.forEach((element) => {
+		element.addEventListener("click", (event) => {
 			if(document.getElementById("cardName")) {
 				let text =  document.getElementById("cardName").getElementsByClassName('title')[0].textContent
-				localStorage.setItem(`${button.getAttribute('chat-id')}cardName`, text);
+				localStorage.setItem(`${element.getAttribute('chat-id')}cardName`, text);
 			}
-			createRoom(Number(button.getAttribute('chat-id')))
+			createRoom(Number(element.getAttribute('chat-id')))
 				.then((e) => {
 					if (e.dialogId) {
 						window.location.href = window.location.origin + '/profile/chat/' + e.dialogId
 					}
 				})
 		});
-	}
+	})
+}
+if (document.querySelectorAll('[data-id]')) {
+	const button = document.querySelectorAll('[data-id]');
+	button.forEach((element) => {
+		element.addEventListener("click", (event) => {
+			console.log(element.getAttribute('data-id'));
+			localStorage.setItem('rewId', element.getAttribute('data-id'));
+			createRoom(82830)
+				.then((e) => {
+					if (e.dialogId) {
+						window.location.href = window.location.origin + '/profile/chat/' + e.dialogId
+					}
+				})
+		});
+	})
 }
 if (document.querySelector('.header__icon-num')) {
 	

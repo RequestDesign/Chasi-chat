@@ -1,5 +1,23 @@
 import React, { useEffect } from 'react';
 import Fancybox from './Fancybox';
+import { SpaceContext } from 'antd/es/space';
+
+const Linkify = ({children})=> {
+    const isUrl = word => {
+        const urlPattern = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/gm;
+        return word.match(urlPattern)
+    }
+
+    const addMarkup = word => {
+        return isUrl(word) ? 
+            `<a href="${word}">${word}</a>`:  
+            word
+    }
+    const words = children.split(' ')
+    const formatedWords = words.map((w, i) => addMarkup(w))
+    const html = formatedWords.join(' ')
+    return (<span dangerouslySetInnerHTML={{__html: html}} />)
+}
 
 const UserMessage = ({ message, userId, admin, prev, update }) => {
 	if(message.files && prev) {
@@ -32,7 +50,9 @@ const UserMessage = ({ message, userId, admin, prev, update }) => {
 	
 						<div className={admin ? messageClass : messageClass} data-files={message.files.length}>
 							{message.content !== '' && (
-								<div className="message-text">{message.content}</div>
+								<div className="message-text">
+									<Linkify>{message.content}</Linkify>
+								</div>
 							)}
 							{message.files.length > 0 && (
 								<Fancybox
@@ -120,7 +140,9 @@ const UserMessage = ({ message, userId, admin, prev, update }) => {
 					<>
 						<div className={messageClassIn} data-files={message.files.length}>
 							{message.content !== '' && (
-								<div className="message-text">{message.content}</div>
+								<div className="message-text">
+									<Linkify>{message.content}</Linkify>
+								</div>
 							)}
 							{message.files.length > 0 && (
 								<Fancybox

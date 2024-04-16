@@ -122,7 +122,6 @@ const Room = ({
 			if (!roomIsLoading) {
 				if (parseInt(dId) === parseInt(newMess.dialogId))
 					setMessages((st) => [...st, newMess]);
-				console.log(dId, 'id');
 				const currentRoom = rooms.find(
 					(room) => Number(room.dialogId) === Number(dId),
 				);
@@ -145,12 +144,27 @@ const Room = ({
 				.then(() => {
 					setRoomIsLoading(false);
 				});
+				setTimeout(() => {
+					console.log(dId);
+					if(localStorage.getItem('rewId')) {
+						console.log(localStorage.getItem('rewId'));
+						let str = `обжаловать отзыв: https://chasi.ru/${localStorage.getItem('rewId')}`;
+						console.log(str);
+						localStorage.removeItem('rewId')
+						selfNewMess(str);
+					}
+				}, 100);
+
 		}
 	}, [dId]);
 
 	useEffect(() => {
 		chatScrollUpdate();
 	}, [messages]);
+	
+	useEffect(() => {
+
+	});
 
 	return (
 		<div className="chat-room">

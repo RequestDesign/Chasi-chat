@@ -5,11 +5,13 @@ import setMessagesRead from '../utils/setMessageRead';
 import { routeNames } from '../router/RouteNames';
 
 const RoomList = ({ rooms, setRooms }) => {
+	const [hideUnread, setHideUnread] = useState(rooms.map(() => true))
 
 	const params = useParams();
 	const dId = params.id;
 
 	const checkRooms = (room) => {
+
 		const admin = Number(localStorage.getItem('userID'))
 		if (admin !== 82830) {
 			let check = room.users.filter((user) => user.userId !== 82830)
@@ -27,11 +29,26 @@ const RoomList = ({ rooms, setRooms }) => {
 					<>
 					{checkRooms(room) ? false :  
 						
-					<NavLink
-						to={routeNames.chat + '/' + room.dialogId}
+					<NavLink to={routeNames.chat + '/' + room.dialogId} onClick={() => {
+						setRooms([...rooms].map((el) => {
+							if (room.dialogId === el.dialogId) {
+								return {...el, unreadMessages: 0 };
+							} else {
+								return el;
+							}
+						}))
+						setHideUnread([...hideUnread].map((el, ind) => {
+							if (index === ind) {
+								return false;
+							} else {
+								return el;
+							}
+						}))
+					}}
 						className={`chat__dialogs__item chat__box-item ${
 							room.dialogId === dId ? 'active' : ''
-						}`}
+						}`
+					}
 						key={index}>
 						<div className="chat__dialogs__photo">
 							<div>{}</div>
@@ -57,7 +74,7 @@ const RoomList = ({ rooms, setRooms }) => {
 									.padStart(2, '0')}
 							</div>
 							{room.unreadMessages > 0 && (
-								<div className="chat__dialogs__unread-messages">
+								<div className={room.unreadMessages ? "chat__dialogs__unread-messages" : "chat__dialogs__unread-messages hidden"}>
 									{room.unreadMessages}
 								</div>
 							)}
