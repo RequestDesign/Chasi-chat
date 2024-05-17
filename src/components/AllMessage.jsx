@@ -9,12 +9,12 @@ const AllMessage = ({ rooms }) => {
             count += room.unreadMessages
         })
         
-        return count ? count : ''
+        return count ? <span>{count}</span> : ''
     };
 	return (
-		<span>
+		<>
 			{countMessages(rooms)}
-		</span>
+		</>
 	);
 };
 

@@ -40,7 +40,8 @@ const Chat = ({ rooms, setRooms, roomsIsLoading, setRoomsIsLoading }) => {
 			<div className="chat__dialogs">
 				<p className="chat__dialogs-title desktop">Сообщения</p>
 				<div className="chat__dialogs__header mobile">
-					<div className="btn--go-back">
+					<div className="btn--go-back" onClick={() => {
+						window.location.href = window.location.origin + '/profile/'}}>
 						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
 							<path d="M15 18L9 12L15 6" stroke="#031E16" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
 						</svg>

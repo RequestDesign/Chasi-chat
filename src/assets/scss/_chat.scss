@@ -649,6 +649,11 @@
 
 			& > div {
 				height: 100%;
+
+				& > div:first-child {
+					display: flex;
+					margin-top: auto;
+				}
 			}
 
 			&::-webkit-scrollbar {

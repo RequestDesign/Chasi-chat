@@ -20,6 +20,7 @@ if (document.querySelectorAll('[chat-id]')) {
 				let text =  document.getElementById("cardName").getElementsByClassName('title')[0].textContent
 				localStorage.setItem(`${element.getAttribute('chat-id')}cardName`, text);
 			}
+			localStorage.setItem(`${element.getAttribute('chat-id')}Tel`, element.getAttribute('data-tel'));
 			createRoom(Number(element.getAttribute('chat-id')))
 				.then((e) => {
 					if (e.dialogId) {
@@ -29,12 +30,11 @@ if (document.querySelectorAll('[chat-id]')) {
 		});
 	})
 }
-if (document.querySelectorAll('[data-id]')) {
-	const button = document.querySelectorAll('[data-id]');
+if (document.querySelectorAll('[appeal-id]')) {
+	const button = document.querySelectorAll('[appeal-id]');
 	button.forEach((element) => {
 		element.addEventListener("click", (event) => {
-			console.log(element.getAttribute('data-id'));
-			localStorage.setItem('rewId', element.getAttribute('data-id'));
+			localStorage.setItem('rewId', element.getAttribute('appeal-id'));
 			createRoom(82830)
 				.then((e) => {
 					if (e.dialogId) {

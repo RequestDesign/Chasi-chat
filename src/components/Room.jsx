@@ -93,6 +93,21 @@ const Room = ({
 		AddNewMessage(obj);
 	};
 
+	const Phone = (number) => {
+		if(number !== 'null' ) {
+			console.log(number);
+			return number ? 'tel:+'+number.trim().match(/\d/g).join('') : ''
+		}
+		return ''
+	};
+	const PhoneText = (number) => {
+		if(number !== 'null' ) {
+			console.log(number);
+			return number ? 'tel:+'+number.trim().match(/\d/g).join('') : ''
+		}
+		return ''
+	};
+
 	const addNewMessage = () => {
 		let str = userText?.trim();
 		if (str) {
@@ -217,9 +232,9 @@ const Room = ({
 								</div>
 							</div>
 							<a
-								href="#"
+								href={Phone(localStorage.getItem(`${user.userId}Tel`))}
 								className="chat__dialog__phone">
-								<span>{user.email}</span>
+								<span>{PhoneText(localStorage.getItem(`${user.userId}Tel`)) ? localStorage.getItem(`${user.userId}Tel`) : user.email}</span>
 								<button className="btn btn__green">
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
