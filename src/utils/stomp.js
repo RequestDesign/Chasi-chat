@@ -8,7 +8,7 @@
  */
 
 
-let Byte, Client, Frame, Stomp,
+let Byte, Client, Frame, Stomp, stompClient,
 	__hasProp = {}.hasOwnProperty,
 	__slice = [].slice;
 

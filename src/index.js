@@ -19,6 +19,7 @@ if (document.querySelectorAll('[chat-id]')) {
 			if(document.getElementById("cardName")) {
 				let text =  document.getElementById("cardName").getElementsByClassName('title')[0].textContent
 				localStorage.setItem(`${element.getAttribute('chat-id')}cardName`, text);
+				localStorage.setItem(`${element.getAttribute('chat-id')}Name`, element.getAttribute('data-name'));
 			}
 			localStorage.setItem(`${element.getAttribute('chat-id')}Tel`, element.getAttribute('data-tel'));
 			createRoom(Number(element.getAttribute('chat-id')))

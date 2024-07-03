@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router';
-import { NavLink } from 'react-router-dom';
+import { NavLink,useLocation } from 'react-router-dom';
 import Loading from './Loading';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { Mentions, Upload } from 'antd';
@@ -10,6 +10,7 @@ import { chatHostName } from '../API/HostNames';
 import { getRoom } from '../API/getRoom';
 import setMessagesRead from '../utils/setMessageRead';
 import UserMessage from './UserMessage';
+import { routeNames } from '../router/RouteNames';
 
 const Room = ({
 	userChatId,
@@ -68,6 +69,11 @@ const Room = ({
 		setFileList(updatedList);
 	};
 
+	// const thisMobile  = {
+	// 	const asd = localStorage.get('thisMobile','true')
+	// 	return 
+	// };
+
 	const propsUpl = {
 		name: 'files',
 		action: chatHostName + '/api/files',
@@ -84,6 +90,35 @@ const Room = ({
 		},
 	};
 
+	// const propsUpl = {
+	// 	name: 'files',
+	// 	action: chatHostName + '/api/files',
+	// 	headers: {
+	// 		"Authorization": "Bearer " + localStorage.getItem('jwtToken')
+	// 	},
+	// 	onChange(info) {
+	// 		if (info.file.status !== 'uploading') {
+	// 			console.log(info.file, info.fileList);
+	// 		}
+	// 		if (info.file.status === 'done') {
+	// 			AddNewMessage({
+	// 				content: '',
+	// 				dialogId: dId,
+	// 				uniqueCode: new Date().valueOf(),
+	// 				files: [
+	// 					{
+	// 						contentType: info.file.response[0].contentType,
+	// 						filename: info.file.response[0].filename,
+	// 						originalName: info.file.response[0].originalName
+	// 					}
+	// 				]
+	// 			});
+	// 		} else if (info.file.status === 'error') {
+	// 			console.log(`${info.file.name} file upload failed.`);
+	// 		}
+	// 	},
+	// };
+
 	const selfNewMess = (text) => {
 		const obj = {
 			content: text,
@@ -95,14 +130,12 @@ const Room = ({
 
 	const Phone = (number) => {
 		if(number !== 'null' ) {
-			console.log(number);
 			return number ? 'tel:+'+number.trim().match(/\d/g).join('') : ''
 		}
 		return ''
 	};
 	const PhoneText = (number) => {
 		if(number !== 'null' ) {
-			console.log(number);
 			return number ? 'tel:+'+number.trim().match(/\d/g).join('') : ''
 		}
 		return ''
@@ -111,6 +144,12 @@ const Room = ({
 	const addNewMessage = () => {
 		let str = userText?.trim();
 		if (str) {
+			// if(!document.querySelector('.ant-mentions').classList.contains('.ant-mentions-focused')) {
+			// 	// document.querySelector(".rc-textarea").click();
+			// 	setTimeout(function(){
+			// 		document.querySelector(".rc-textarea").focus()},1)
+			// }
+			document.querySelector('.btn--send').classList.remove("active")
 			selfNewMess(str);
 			setUserText(null);
 		}
@@ -131,6 +170,16 @@ const Room = ({
 			setFileList(updatedList);
 		}
 	};
+
+	const activateLasers = () => {
+		if(getComputedStyle(document.querySelector(".btn--add-photo").querySelector(".ant-upload-wrapper")).pointerEvents == 'none') {
+			setTimeout(() => {
+				document.querySelector(".btn--add-photo").querySelector(".ant-upload-wrapper").style.pointerEvents = 'initial'
+				document.querySelector(".btn--add-photo").querySelector("input").click()
+				document.querySelector(".btn--add-photo").querySelector(".ant-upload-wrapper").style.pointerEvents = 'none'
+			}, 100);
+		}
+	}
 
 	useEffect(() => {
 		if (newMess) {
@@ -160,11 +209,8 @@ const Room = ({
 					setRoomIsLoading(false);
 				});
 				setTimeout(() => {
-					console.log(dId);
 					if(localStorage.getItem('rewId')) {
-						console.log(localStorage.getItem('rewId'));
 						let str = `обжаловать отзыв: https://chasi.ru/${localStorage.getItem('rewId')}`;
-						console.log(str);
 						localStorage.removeItem('rewId')
 						selfNewMess(str);
 					}
@@ -174,12 +220,32 @@ const Room = ({
 	}, [dId]);
 
 	useEffect(() => {
+		if(document.querySelector('.footer')) {
+			document.querySelector('.footer').style.display = "none"
+		}
 		chatScrollUpdate();
 	}, [messages]);
 	
 	useEffect(() => {
-
+		if (window.screen.width <= 768) {
+			document.querySelector("body").style.overflow = "hidden";
+		}
+		if(document.querySelector('.rc-textarea')) {
+			document.querySelector(".rc-textarea").click();
+			setTimeout(function(){
+				document.querySelector(".rc-textarea").focus()},1)
+		}
 	});
+	const admin = 82830
+	
+	let route
+	
+	if(RegExp('\\b'+ 'chat' +'\\b').test(useLocation().pathname)) {
+		route = routeNames.chat + '/'
+	}
+	if(RegExp('\\b'+ 'chat_app' +'\\b').test(useLocation().pathname)) {
+		route = routeNames.chat_app + '/'
+	}
 
 	return (
 		<div className="chat-room">
@@ -190,8 +256,11 @@ const Room = ({
 							<Loading />
 						</div>
 					) : (
-						<>
-							<NavLink to='/profile/chat' className="btn--go-back btn--close-dialog mobile">
+						<>	{localStorage.getItem('thisMobile') == 'true' ? (
+							<>
+							</>
+						): (
+							<NavLink to={route} className="btn--go-back btn--close-dialog mobile ">
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
 									viewBox="0 0 24 24"
@@ -205,6 +274,8 @@ const Room = ({
 									/>
 								</svg>
 							</NavLink>
+						)}
+							
 							{/* <a href='/profile/chat' className="btn--go-back btn--close-dialog mobile">
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
@@ -226,15 +297,19 @@ const Room = ({
 								/>
 							</div>
 							<div className="chat__dialog__data">
-								<div className="chat__dialog__product">{localStorage.getItem(`${user.userId}cardName`) ? localStorage.getItem(`${user.userId}cardName`) : user.username}</div>
+								<div className="chat__dialog__product">
+									{
+										user.userId === admin ? 'Поддержка' : localStorage.getItem(`${user.userId}Name`)
+									}
+								</div>
 								<div className="chat__dialog__name">
-									{user.lastName} {user.firstName}
+									{user.userId === admin ? '' : user.lastName == 'Фамилия' ? '' : user.lastName} {user.userId === admin ? '' : user.firstName}
 								</div>
 							</div>
 							<a
 								href={Phone(localStorage.getItem(`${user.userId}Tel`))}
 								className="chat__dialog__phone">
-								<span>{PhoneText(localStorage.getItem(`${user.userId}Tel`)) ? localStorage.getItem(`${user.userId}Tel`) : user.email}</span>
+								<span>{PhoneText(localStorage.getItem(`${user.userId}Tel`)) ? localStorage.getItem(`${user.userId}Tel`) : user.email.slice(10)}</span>
 								<button className="btn btn__green">
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
@@ -256,6 +331,7 @@ const Room = ({
 					)}
 				</div>
 				<div className="chat__dialog__messages">
+				{messages && messages.length > 0 ? (
 					<Scrollbars
 						autoHide
 						ref={chatScroll}>
@@ -316,6 +392,14 @@ const Room = ({
 							</>
 						)}
 					</Scrollbars>
+				) : (
+						<div className="chat__dialog__messages chat__dialog__messages--empty">
+							<span>
+								Здесь будет ваша переписка. <br />
+								Чат предназначен для решения проблем и ответа на вопросы
+							</span>
+						</div>
+				)}
 				</div>
 				<div className="chat__dialog__footer">
 					{fileList.length > 0 && (
@@ -388,11 +472,15 @@ const Room = ({
 							style={{ width: '100%' }}
 							placeholder="Напишите сообщение"
 							value={userText}
-							onChange={(value) => setUserText(value)}
+							onChange={(value) => {
+								value ? document.querySelector('.btn--send').classList.add("active") : document.querySelector('.btn--send').classList.remove("active")
+								setUserText(value)
+							}}
 							onKeyPress={(e) => {
 								if (e.charCode === 13) {
 									e.preventDefault();
 									addNewMessage();
+									document.querySelector('.btn--send').classList.remove("active")
 								}
 							}}>
 							{(MOCK_DATA[prefix] || []).map((value) => (
@@ -403,32 +491,32 @@ const Room = ({
 								</Option>
 							))}
 						</Mentions>
+						<div className="btn--add-photo" onClick={activateLasers}>
+							<Upload {...propsUpl} accept="image/*">
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									viewBox="0 0 30 26"
+									fill="none">
+									<path
+										d="M19.3187 10.2521C21.6543 12.5877 21.6543 16.3743 19.3187 18.7098C16.9832 21.0454 13.1966 21.0454 10.861 18.7098C8.52549 16.3743 8.52549 12.5877 10.861 10.2521C13.1966 7.91661 16.9832 7.91661 19.3187 10.2521"
+										stroke="#031E16"
+										strokeWidth="1.5"
+										strokeLinecap="round"
+										strokeLinejoin="round"
+									/>
+									<path
+										fillRule="evenodd"
+										clipRule="evenodd"
+										d="M28.5 8.5V22C28.5 23.6575 27.1575 25 25.5 25H4.5C2.8425 25 1.5 23.6575 1.5 22V8.5C1.5 6.8425 2.8425 5.5 4.5 5.5H7.5L9.693 1.744C9.9615 1.2835 10.455 1 10.989 1H18.945C19.4715 1 19.959 1.276 20.2305 1.726L22.5 5.5H25.5C27.1575 5.5 28.5 6.8425 28.5 8.5Z"
+										stroke="#031E16"
+										strokeWidth="1.5"
+										strokeLinecap="round"
+										strokeLinejoin="round"
+									/>
+								</svg>
+							</Upload>
+						</div>
 						<div className="chat__dialog__btns">
-							<div className="btn--add-photo">
-								<Upload {...propsUpl}>
-									<svg
-										xmlns="http://www.w3.org/2000/svg"
-										viewBox="0 0 30 26"
-										fill="none">
-										<path
-											d="M19.3187 10.2521C21.6543 12.5877 21.6543 16.3743 19.3187 18.7098C16.9832 21.0454 13.1966 21.0454 10.861 18.7098C8.52549 16.3743 8.52549 12.5877 10.861 10.2521C13.1966 7.91661 16.9832 7.91661 19.3187 10.2521"
-											stroke="#031E16"
-											strokeWidth="1.5"
-											strokeLinecap="round"
-											strokeLinejoin="round"
-										/>
-										<path
-											fillRule="evenodd"
-											clipRule="evenodd"
-											d="M28.5 8.5V22C28.5 23.6575 27.1575 25 25.5 25H4.5C2.8425 25 1.5 23.6575 1.5 22V8.5C1.5 6.8425 2.8425 5.5 4.5 5.5H7.5L9.693 1.744C9.9615 1.2835 10.455 1 10.989 1H18.945C19.4715 1 19.959 1.276 20.2305 1.726L22.5 5.5H25.5C27.1575 5.5 28.5 6.8425 28.5 8.5Z"
-											stroke="#031E16"
-											strokeWidth="1.5"
-											strokeLinecap="round"
-											strokeLinejoin="round"
-										/>
-									</svg>
-								</Upload>
-							</div>
 							<div
 								className="btn--send"
 								onClick={addNewMessage}>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { NavLink, useParams } from 'react-router-dom';
+import { NavLink, useParams, useLocation  } from 'react-router-dom';
 import SnippetsOutlined from '@ant-design/icons/lib/icons/SnippetsOutlined';
 import setMessagesRead from '../utils/setMessageRead';
 import { routeNames } from '../router/RouteNames';
@@ -11,7 +11,11 @@ const RoomList = ({ rooms, setRooms }) => {
 	const dId = params.id;
 
 	const checkRooms = (room) => {
-
+		console.log(room);
+		document.querySelector("body").style.overflow = "auto";
+		if(document.querySelector('.footer')) {
+			document.querySelector('.footer').style.display = "block"
+		}
 		const admin = Number(localStorage.getItem('userID'))
 		if (admin !== 82830) {
 			let check = room.users.filter((user) => user.userId !== 82830)
@@ -21,6 +25,13 @@ const RoomList = ({ rooms, setRooms }) => {
 			return false
 		}
 	};
+	let route
+	if(RegExp('\\b'+ 'chat' +'\\b').test(useLocation().pathname)) {
+		route = routeNames.chat
+	}
+	if(RegExp('\\b'+ 'chat_app' +'\\b').test(useLocation().pathname)) {
+		route = routeNames.chat_app
+	}
 
 	return (
 		<>
@@ -29,7 +40,7 @@ const RoomList = ({ rooms, setRooms }) => {
 					<>
 					{checkRooms(room) ? false :  
 						
-					<NavLink to={routeNames.chat + '/' + room.dialogId} onClick={() => {
+					<NavLink to={route + '/' + room.dialogId} onClick={() => {
 						setRooms([...rooms].map((el) => {
 							if (room.dialogId === el.dialogId) {
 								return {...el, unreadMessages: 0 };
@@ -53,7 +64,7 @@ const RoomList = ({ rooms, setRooms }) => {
 						<div className="chat__dialogs__photo">
 							<div>{}</div>
 							<img
-								src={room.image}
+								src={room.users.filter((user) => user.userId !== Number(localStorage.getItem('userID')))[0].avatar}
 								alt="Avatar of sender	"
 							/>
 						</div>

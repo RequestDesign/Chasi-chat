@@ -88,6 +88,29 @@ function App() {
 					/>
 				</Route>
 				<Route
+					path={routeNames.chat_app}
+					element={
+						<Chat
+							rooms={rooms}
+							setRooms={setRooms}
+							roomsIsLoading={roomsIsLoading}
+							setRoomsIsLoading={setRoomsLoading}
+						/>
+					}>
+					<Route
+						path=":id"
+						element={
+							<Room
+								rooms={rooms}
+								setRooms={setRooms}
+								newMess={newMessage}
+								userChatId={parseInt(userID)}
+								AddNewMessage={sendNewMessage}
+							/>
+						}
+					/>
+				</Route>
+				<Route
 					path="*"
 					element={
 						<ModalRoom

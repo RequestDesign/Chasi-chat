@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useLocation } from 'react-router-dom';
 import {createRoom} from "../API/createRoom";
+import { routeNames } from '../router/RouteNames';
 
 export const Support = ({ rooms }) => {
 	const sup = 82830;
@@ -12,6 +13,10 @@ export const Support = ({ rooms }) => {
 		const id = room.length ? room[0].dialogId : 0
 		return id === Number(params.id) ? true : false
 	};
+	const takeRoom = () => {
+		const room = rooms.filter((x) => x.users.filter((e)=> e.userId === sup).length === 1 )
+		return room
+	};
 	const adminRoom = () => {
 		createRoom(82830)
 		.then((e) => {
@@ -19,11 +24,18 @@ export const Support = ({ rooms }) => {
 		})
 		return localStorage.getItem('idaroom')
 	};
+	let route
+	if(RegExp('\\b'+ 'chat' +'\\b').test(useLocation().pathname)) {
+		route = routeNames.chat + '/'
+	}
+	if(RegExp('\\b'+ 'chat_app' +'\\b').test(useLocation().pathname)) {
+		route = routeNames.chat_app + '/'
+	}
 
 	return (
 		<Link
-			to={`/profile/chat/${adminRoom()}`}
-			className={`chat__dialogs__support${checkRooms() ? 'active' : ''}`}>
+			to={`${route}${adminRoom()}`}
+			className={`chat__dialogs__support${checkRooms() ? 'active' : ''} ${RegExp('\\b'+ 'chat_app' +'\\b').test(useLocation().pathname) ? 'active_mob' : ''}`}>
 
 			<div className={`chat__dialogs__item ${checkRooms() ? 'active' : ''}`}>
 				<div className="chat__dialogs__photo">
@@ -84,11 +96,29 @@ export const Support = ({ rooms }) => {
 					<div className="chat__dialogs__message">Будем рады помочь</div>
 				</div>
 				<div className="chat__dialogs__details">
-					<button className="btn--go-to">
+					{takeRoom().timestamp ? 
+						<div className="chat__dialogs__time">
+							{new Date(takeRoom().timestamp)
+								.getHours()
+								.toString()
+								.padStart(2, '0')}
+							:
+							{new Date(takeRoom().timestamp)
+								.getMinutes()
+								.toString()
+								.padStart(2, '0')}
+						</div> : false
+					}
+					{takeRoom().unreadMessages > 0 && (
+						<div className={takeRoom().unreadMessages ? "chat__dialogs__unread-messages" : "chat__dialogs__unread-messages hidden"}>
+							{takeRoom().unreadMessages}
+						</div>
+					)}
+					{/* <button className="btn--go-to">
 						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
 							<path d="M9 18L15 12L9 6" stroke="#031E16" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
 						</svg>
-					</button>
+					</button> */}
 				</div>
             </div>
 		</Link>
